@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Степан Шеулин](https://up.htmlacademy.ru/javascript-individual/3/user/2707331).
-* Наставник: `Неизвестно`.
+* Наставник: [Анастасия Гущина](https://htmlacademy.ru/profile/vanastasiya).
 
 ---
 
