@@ -1,14 +1,9 @@
-function checkStringLength(str, maxLength) {
-  return str.length <= maxLength;
-}
+const checkStringLength = (str, maxLength) => str.length <= maxLength;
 
-console.log(checkStringLength('проверяемая строка', 20));
-console.log(checkStringLength('проверяемая строка', 18));
-console.log(checkStringLength('проверяемая строка', 10));
+checkStringLength('проверяемая строка', 20)
 
-function isPalindrome(str) {
+const isPalindrome = (str) => {
   const normalized = str.replaceAll(' ', '').toLowerCase();
-
   let reversed = '';
 
   for (let i = normalized.length - 1; i >= 0; i--) {
@@ -16,16 +11,12 @@ function isPalindrome(str) {
   }
 
   return reversed === normalized;
-}
+};
 
-console.log(isPalindrome('топот'));
-console.log(isPalindrome('ДовОд'));
-console.log(isPalindrome('Кекс'));
-console.log(isPalindrome('Лёша на полке клопа нашёл '));
+isPalindrome('топот')
 
-function extractDigits(value) {
+const extractDigits = (value) => {
   const str = value.toString();
-
   let digits = '';
 
   for (let i = 0; i < str.length; i++) {
@@ -38,13 +29,6 @@ function extractDigits(value) {
   }
 
   return parseInt(digits, 10);
-}
+};
 
-console.log(extractDigits('2023 год'));
-console.log(extractDigits('ECMAScript 2022'));
-console.log(extractDigits('1 кефир, 0.5 батона'));
-console.log(extractDigits('агент 007'));
-console.log(extractDigits('а я томат'));
-console.log(extractDigits(2023));
-console.log(extractDigits(-1));
-console.log(extractDigits(1.5));
+extractDigits('2023 год')
