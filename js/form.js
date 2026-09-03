@@ -1,6 +1,5 @@
 import { resetScale } from './scale.js';
 import { resetEffect } from './effects.js';
-import { sendData } from './api.js';
 
 const MAX_HASHTAGS = 5;
 const MAX_COMMENT_LENGTH = 140;
@@ -9,20 +8,9 @@ const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = document.querySelector('.img-upload__input');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
 const closeButton = document.querySelector('.img-upload__cancel');
-const submitButton = uploadForm.querySelector('.img-upload__submit');
 
 const hashtagsInput = document.querySelector('.text__hashtags');
 const descriptionInput = document.querySelector('.text__description');
-
-const successMessageTemplate = document
-  .querySelector('#success')
-  .content
-  .querySelector('.success');
-
-const errorMessageTemplate = document
-  .querySelector('#error')
-  .content
-  .querySelector('.error');
 
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -41,14 +29,8 @@ const closeUploadForm = () => {
   resetEffect();
 };
 
-let isMessageShown = false;
-
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
-    if (isMessageShown) {
-      return;
-    }
-
     const activeElement = document.activeElement;
 
     if (
@@ -139,62 +121,8 @@ pristine.addValidator(
   'Комментарий не может быть длиннее 140 символов'
 );
 
-const showMessage = (messageTemplate, buttonSelector) => {
-  const message = messageTemplate.cloneNode(true);
-  const messageButton = message.querySelector(buttonSelector);
-
-  isMessageShown = true;
-
-  function onMessageKeydown(evt) {
-    if (evt.key === 'Escape') {
-      closeMessage();
-    }
-  }
-
-  function onMessageButtonClick() {
-    closeMessage();
-  }
-
-  function onMessageClick(evt) {
-    if (evt.target === message) {
-      closeMessage();
-    }
-  }
-
-  function closeMessage() {
-    message.remove();
-    isMessageShown = false;
-
-    messageButton.removeEventListener('click', onMessageButtonClick);
-    message.removeEventListener('click', onMessageClick);
-    document.removeEventListener('keydown', onMessageKeydown);
-  }
-
-  messageButton.addEventListener('click', onMessageButtonClick);
-  message.addEventListener('click', onMessageClick);
-  document.addEventListener('keydown', onMessageKeydown);
-
-  document.body.append(message);
-};
-
 uploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-
   if (!pristine.validate()) {
-    return;
+    evt.preventDefault();
   }
-
-  const formData = new FormData(uploadForm);
-
-  submitButton.disabled = true;
-  sendData(formData)
-    .then(() => {
-      submitButton.disabled = false;
-      closeUploadForm();
-      showMessage(successMessageTemplate, '.success__button');
-    })
-    .catch(() => {
-      submitButton.disabled = false;
-      showMessage(errorMessageTemplate, '.error__button');
-    });
 });
