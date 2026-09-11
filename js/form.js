@@ -11,9 +11,11 @@ const uploadOverlay = document.querySelector('.img-upload__overlay');
 const closeButton = document.querySelector('.img-upload__cancel');
 const submitButton = uploadForm.querySelector('.img-upload__submit');
 const previewImage = document.querySelector('.img-upload__preview img');
+const previewEffectImages = uploadForm.querySelectorAll('.effects__preview');
 
 const hashtagsInput = document.querySelector('.text__hashtags');
 const descriptionInput = document.querySelector('.text__description');
+let uploadedFileUrl;
 
 const successMessageTemplate = document
   .querySelector('#success')
@@ -40,6 +42,10 @@ const closeUploadForm = () => {
   pristine.reset();
   resetScale();
   resetEffect();
+
+  if (uploadedFileUrl) {
+    URL.revokeObjectURL(uploadedFileUrl);
+  }
 };
 
 let isMessageShown = false;
@@ -67,7 +73,12 @@ const onUploadInputChange = () => {
   const file = uploadInput.files[0];
 
   if (file) {
-    previewImage.src = URL.createObjectURL(file);
+    uploadedFileUrl = URL.createObjectURL(file);
+    previewImage.src = uploadedFileUrl;
+
+    previewEffectImages.forEach((preview) => {
+      preview.style.backgroundImage = `url(${uploadedFileUrl})`;
+    });
   }
 
   uploadOverlay.classList.remove('hidden');
