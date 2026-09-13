@@ -32,7 +32,7 @@ const pristine = new Pristine(uploadForm, {
   errorClass: 'img-upload__field-wrapper--error',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextTag: 'div',
-  errorTextClass: 'pristine-error'
+  errorTextClass: 'img-upload__field-wrapper--error'
 });
 
 let isMessageShown = false;

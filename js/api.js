@@ -1,5 +1,5 @@
-const GET_DATA_URL = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
-const SEND_DATA_URL = 'https://32.javascript.htmlacademy.pro/kekstagram';
+const GET_DATA_URL = 'https://31.javascript.htmlacademy.pro/kekstagram/data';
+const SEND_DATA_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 
 const getData = () =>
   fetch(GET_DATA_URL)
