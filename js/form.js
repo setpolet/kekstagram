@@ -32,26 +32,26 @@ const pristine = new Pristine(uploadForm, {
   errorClass: 'img-upload__field-wrapper--error',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextTag: 'div',
-  errorTextClass: 'pristine-error'
+  errorTextClass: 'img-upload__field-wrapper--error'
 });
 
 let isMessageShown = false;
 
-function closeUploadForm() {
+const closeUploadForm = (onKeydown) => {
   uploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   uploadForm.reset();
   pristine.reset();
   resetScale();
   resetEffect();
-  document.removeEventListener('keydown', onDocumentKeydown);
+  document.removeEventListener('keydown', onKeydown);
 
   if (uploadedFileUrl) {
     URL.revokeObjectURL(uploadedFileUrl);
   }
-}
+};
 
-function onDocumentKeydown(evt) {
+const onDocumentKeydown = (evt) => {
   if (evt.key !== 'Escape') {
     return;
   }
@@ -69,8 +69,12 @@ function onDocumentKeydown(evt) {
     return;
   }
 
-  closeUploadForm();
-}
+  closeUploadForm(onDocumentKeydown);
+};
+
+const onUploadCloseButtonClick = () => {
+  closeUploadForm(onDocumentKeydown);
+};
 
 const onUploadInputChange = () => {
   const file = uploadInput.files[0];
@@ -90,15 +94,11 @@ const onUploadInputChange = () => {
 };
 
 uploadInput.addEventListener('change', onUploadInputChange);
-closeButton.addEventListener('click', closeUploadForm);
+closeButton.addEventListener('click', onUploadCloseButtonClick);
 
 const isValidHashtag = (hashtag) => /^#[a-zа-яё0-9]{1,19}$/i.test(hashtag);
 
 const getHashtags = (value) => {
-  if (!value.trim()) {
-    return true;
-  }
-
   const hashtags = value.trim().split(/\s+/);
   return hashtags;
 };
@@ -166,34 +166,58 @@ const showMessage = (messageTemplate, buttonSelector) => {
 
   isMessageShown = true;
 
-  function onMessageKeydown(evt) {
-    if (evt.key === 'Escape') {
-      closeMessage();
-    }
-  }
+  const messageHandlers = {
+    onMessageKeydown: null,
+    onMessageButtonClick: null,
+    onMessageClick: null
+  };
 
-  function onMessageButtonClick() {
-    closeMessage();
-  }
-
-  function onMessageClick(evt) {
-    if (evt.target === message) {
-      closeMessage();
-    }
-  }
-
-  function closeMessage() {
+  const closeMessage = () => {
     message.remove();
     isMessageShown = false;
 
-    messageButton.removeEventListener('click', onMessageButtonClick);
-    message.removeEventListener('click', onMessageClick);
-    document.removeEventListener('keydown', onMessageKeydown);
-  }
+    messageButton.removeEventListener(
+      'click',
+      messageHandlers.onMessageButtonClick
+    );
+    message.removeEventListener(
+      'click',
+      messageHandlers.onMessageClick
+    );
+    document.removeEventListener(
+      'keydown',
+      messageHandlers.onMessageKeydown
+    );
+  };
 
-  messageButton.addEventListener('click', onMessageButtonClick);
-  message.addEventListener('click', onMessageClick);
-  document.addEventListener('keydown', onMessageKeydown);
+  messageHandlers.onMessageKeydown = (evt) => {
+    if (evt.key === 'Escape') {
+      closeMessage();
+    }
+  };
+
+  messageHandlers.onMessageButtonClick = () => {
+    closeMessage();
+  };
+
+  messageHandlers.onMessageClick = (evt) => {
+    if (evt.target === message) {
+      closeMessage();
+    }
+  };
+
+  messageButton.addEventListener(
+    'click',
+    messageHandlers.onMessageButtonClick
+  );
+  message.addEventListener(
+    'click',
+    messageHandlers.onMessageClick
+  );
+  document.addEventListener(
+    'keydown',
+    messageHandlers.onMessageKeydown
+  );
 
   document.body.append(message);
 };
@@ -208,14 +232,16 @@ uploadForm.addEventListener('submit', (evt) => {
   const formData = new FormData(uploadForm);
 
   submitButton.disabled = true;
+
   sendData(formData)
     .then(() => {
-      submitButton.disabled = false;
-      closeUploadForm();
+      closeUploadForm(onDocumentKeydown);
       showMessage(successMessageTemplate, '.success__button');
     })
     .catch(() => {
-      submitButton.disabled = false;
       showMessage(errorMessageTemplate, '.error__button');
+    })
+    .finally(() => {
+      submitButton.disabled = false;
     });
 });

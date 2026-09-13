@@ -7,12 +7,14 @@ const defaultFilterButton = document.querySelector('#filter-default');
 const randomFilterButton = document.querySelector('#filter-random');
 const discussedFilterButton = document.querySelector('#filter-discussed');
 
+let activeFilterButton = defaultFilterButton;
+
 const setActiveFilter = (button) => {
-  document
-    .querySelector('.img-filters__button--active')
-    .classList.remove('img-filters__button--active');
+  activeFilterButton.classList.remove('img-filters__button--active');
 
   button.classList.add('img-filters__button--active');
+
+  activeFilterButton = button;
 };
 
 const getRandomPhotos = (photos) => {

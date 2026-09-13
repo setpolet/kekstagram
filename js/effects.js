@@ -48,6 +48,9 @@ const effects = document.querySelectorAll('.effects__radio');
 const effectLevel = document.querySelector('.effect-level');
 const effectLevelValue = document.querySelector('.effect-level__value');
 const effectLevelSlider = document.querySelector('.effect-level__slider');
+const effectNone = document.querySelector('#effect-none');
+
+let activeEffect = EFFECTS.none;
 
 noUiSlider.create(effectLevelSlider, {
   range: {
@@ -75,14 +78,12 @@ effectLevelSlider.noUiSlider.on('update', (values) => {
 
   effectLevelValue.value = value;
 
-  const activeEffect = document.querySelector('.effects__radio:checked');
-  const effect = EFFECTS[activeEffect.value];
-
-  applyEffect(effect, value);
+  applyEffect(activeEffect, value);
 });
 
 const onEffectChange = (evt) => {
-  const effect = EFFECTS[evt.target.value];
+  activeEffect = EFFECTS[evt.target.value];
+  const effect = activeEffect;
 
   if (effect.filter === null) {
     effectLevel.classList.add('hidden');
@@ -111,7 +112,8 @@ effects.forEach((effect) => {
 });
 
 const resetEffect = () => {
-  document.querySelector('#effect-none').checked = true;
+  effectNone.checked = true;
+  activeEffect = EFFECTS.none;
   effectLevel.classList.add('hidden');
   effectLevelValue.value = '';
   previewImage.style.removeProperty('filter');
