@@ -5,6 +5,7 @@ const bigPictureImage = bigPicture.querySelector('.big-picture__img img');
 const likesCount = bigPicture.querySelector('.likes-count');
 const shownCommentsCount = bigPicture.querySelector('.social__comment-shown-count');
 const totalCommentsCount = bigPicture.querySelector('.social__comment-total-count');
+const commentsCount = bigPicture.querySelector('.social__comment-count');
 const commentsContainer = bigPicture.querySelector('.social__comments');
 const caption = bigPicture.querySelector('.social__caption');
 const commentItem = bigPicture.querySelector('.social__comment');
@@ -90,9 +91,7 @@ const openBigPicture = (picture) => {
 
   renderComments();
 
-  bigPicture
-    .querySelector('.social__comment-count')
-    .classList.remove('hidden');
+  commentsCount.classList.remove('hidden');
 
   commentsLoader.classList.remove('hidden');
 
