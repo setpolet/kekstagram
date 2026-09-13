@@ -1,4 +1,6 @@
-export const debounce = (callback, timeoutDelay = 500) => {
+const DEBOUNCE_DELAY = 500;
+
+export const debounce = (callback, timeoutDelay = DEBOUNCE_DELAY) => {
   let timeoutId;
 
   return (...rest) => {
