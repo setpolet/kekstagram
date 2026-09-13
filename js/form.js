@@ -96,7 +96,7 @@ const isValidHashtag = (hashtag) => /^#[a-zа-яё0-9]{1,19}$/i.test(hashtag);
 
 const getHashtags = (value) => {
   if (!value.trim()) {
-    return true;
+    return [];
   }
 
   const hashtags = value.trim().split(/\s+/);
