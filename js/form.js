@@ -235,12 +235,13 @@ uploadForm.addEventListener('submit', (evt) => {
 
   sendData(formData)
     .then(() => {
-      submitButton.disabled = false;
       closeUploadForm(onDocumentKeydown);
       showMessage(successMessageTemplate, '.success__button');
     })
     .catch(() => {
-      submitButton.disabled = false;
       showMessage(errorMessageTemplate, '.error__button');
+    })
+    .finally(() => {
+      submitButton.disabled = false;
     });
 });
