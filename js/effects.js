@@ -1,9 +1,3 @@
-const previewImage = document.querySelector('.img-upload__preview img');
-const effects = document.querySelectorAll('.effects__radio');
-const effectLevel = document.querySelector('.effect-level');
-const effectLevelValue = document.querySelector('.effect-level__value');
-const effectLevelSlider = document.querySelector('.effect-level__slider');
-
 const EFFECTS = {
   none: {
     min: 0,
@@ -48,6 +42,12 @@ const EFFECTS = {
     unit: ''
   },
 };
+
+const previewImage = document.querySelector('.img-upload__preview img');
+const effects = document.querySelectorAll('.effects__radio');
+const effectLevel = document.querySelector('.effect-level');
+const effectLevelValue = document.querySelector('.effect-level__value');
+const effectLevelSlider = document.querySelector('.effect-level__slider');
 
 noUiSlider.create(effectLevelSlider, {
   range: {

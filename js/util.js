@@ -1,10 +1,6 @@
-export const getRandomInt = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1)) + min;
+const DEBOUNCE_DELAY = 500;
 
-export const getRandomArrayElement = (elements) =>
-  elements[getRandomInt(0, elements.length - 1)];
-
-export const debounce = (callback, timeoutDelay = 500) => {
+export const debounce = (callback, timeoutDelay = DEBOUNCE_DELAY) => {
   let timeoutId;
 
   return (...rest) => {

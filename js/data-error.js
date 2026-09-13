@@ -1,3 +1,5 @@
+const DATA_ERROR_TIMEOUT = 5000;
+
 const dataErrorTemplate = document
   .querySelector('#data-error')
   .content
@@ -10,7 +12,7 @@ const showDataError = () => {
 
   setTimeout(() => {
     dataError.remove();
-  }, 5000);
+  }, DATA_ERROR_TIMEOUT);
 };
 
 export { showDataError };

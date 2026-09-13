@@ -35,39 +35,42 @@ const pristine = new Pristine(uploadForm, {
   errorTextClass: 'pristine-error'
 });
 
-const closeUploadForm = () => {
+let isMessageShown = false;
+
+function closeUploadForm() {
   uploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   uploadForm.reset();
   pristine.reset();
   resetScale();
   resetEffect();
+  document.removeEventListener('keydown', onDocumentKeydown);
 
   if (uploadedFileUrl) {
     URL.revokeObjectURL(uploadedFileUrl);
   }
-};
+}
 
-let isMessageShown = false;
-
-const onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape') {
-    if (isMessageShown) {
-      return;
-    }
-
-    const activeElement = document.activeElement;
-
-    if (
-      activeElement === hashtagsInput ||
-      activeElement === descriptionInput
-    ) {
-      return;
-    }
-
-    closeUploadForm();
+function onDocumentKeydown(evt) {
+  if (evt.key !== 'Escape') {
+    return;
   }
-};
+
+  if (isMessageShown) {
+    return;
+  }
+
+  const activeElement = document.activeElement;
+
+  if (
+    activeElement === hashtagsInput ||
+    activeElement === descriptionInput
+  ) {
+    return;
+  }
+
+  closeUploadForm();
+}
 
 const onUploadInputChange = () => {
   const file = uploadInput.files[0];
