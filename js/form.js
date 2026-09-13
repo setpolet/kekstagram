@@ -51,6 +51,10 @@ function closeUploadForm() {
   }
 }
 
+const onUploadCloseButtonClick = () => {
+  closeUploadForm();
+};
+
 function onDocumentKeydown(evt) {
   if (evt.key !== 'Escape') {
     return;
@@ -90,7 +94,7 @@ const onUploadInputChange = () => {
 };
 
 uploadInput.addEventListener('change', onUploadInputChange);
-closeButton.addEventListener('click', closeUploadForm);
+closeButton.addEventListener('click', onUploadCloseButtonClick);
 
 const isValidHashtag = (hashtag) => /^#[a-zа-яё0-9]{1,19}$/i.test(hashtag);
 

@@ -60,6 +60,10 @@ const closeBigPicture = () => {
   document.removeEventListener('keydown', onDocumentEscapeKeydown);
 };
 
+const onBigPictureCloseButtonClick = () => {
+  closeBigPicture();
+};
+
 function onDocumentEscapeKeydown(evt) {
   if (evt.key === 'Escape' && !bigPicture.classList.contains('hidden')) {
     closeBigPicture();
@@ -99,6 +103,6 @@ const openBigPicture = (picture) => {
 
 commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
-closeButton.addEventListener('click', closeBigPicture);
+closeButton.addEventListener('click', onBigPictureCloseButtonClick);
 
 export { openBigPicture };
